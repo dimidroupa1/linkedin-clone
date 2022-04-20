@@ -2,6 +2,8 @@ import {auth, provider, storage} from "../firebase";
 import {SET_USER, SET_LOADING_STATUS, GET_POSTS, GET_USERS} from "./actionType";
 import db from "../firebase";
 import {useAuthState} from "react-firebase-hooks/auth";
+import firebase from 'firebase/compat/app';
+import "firebase/compat/firestore";
 
 export const setUser = (payload) => ({
     type: SET_USER,
@@ -100,6 +102,7 @@ export function postArticleAPI(payload) {
                             sharedImg: downloadURL,
                             comments: 0,
                             description: payload.description,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             likes: 0,
                         })
                         .catch((error) => console.log(error.message));
@@ -118,6 +121,7 @@ export function postArticleAPI(payload) {
                             sharedImg: downloadURL,
                             comments: 0,
                             description: payload.description,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                             likes: 0,
                         });
                     dispatch(setLoading(false));
@@ -137,6 +141,7 @@ export function postArticleAPI(payload) {
                     shareImg: "",
                     comment: 0,
                     description: payload.description,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     likes: 0,
 
                 })
@@ -155,6 +160,7 @@ export function postArticleAPI(payload) {
                     video: payload.video,
                     sharedImg: "",
                     description: payload.description,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     likes: 0,
                 });
             dispatch(setLoading(false));
@@ -170,6 +176,7 @@ export function postArticleAPI(payload) {
                     video: "",
                     shareImg: "",
                     description: payload.description,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     likes: 0,
                 });
             db
@@ -186,6 +193,7 @@ export function postArticleAPI(payload) {
                     video: "",
                     sharedImg: "",
                     description: payload.description,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                     likes: 0,
                 });
         }
@@ -197,7 +205,7 @@ export function getArticlesAPI() {
         let payload;
 
         db.collection("posts")
-            .orderBy("actor", "desc")
+            .orderBy("timestamp", "desc")
             .onSnapshot((snapshot) => {
                 payload = snapshot.docs.map((doc) => doc.data());
                 console.log(payload);

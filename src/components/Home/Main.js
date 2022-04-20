@@ -135,7 +135,7 @@ const Main = (props) => {
                             </DescriptionOnly>
                         )
                       }
-                      {/*<SocialCounts>
+                      <SocialCounts>
                         <li>
                           <button>
                             <img
@@ -186,7 +186,7 @@ const Main = (props) => {
                             Send
                           </span>
                         </button>
-                      </SocialActions>*/}
+                      </SocialActions>
                     </Article>
                 ))
               }
